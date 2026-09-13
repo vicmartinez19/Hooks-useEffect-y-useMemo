@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 function ContadorTareas() {
   const [tareas, setTareas] = useState([
@@ -6,6 +6,11 @@ function ContadorTareas() {
   ]);
   const [nuevaTarea, setNuevaTarea] = useState('');
   const [duracion, setDuracion] = useState('');
+
+  const tiempoTotal = useMemo(() => {
+    console.log("⚡ [useMemo] Recalculando tiempo total...");
+    return tareas.reduce((total, t) => total + t.duracion, 0);
+  }, [tareas]);
 
   const agregarTarea = (e) => {
     e.preventDefault();
@@ -19,6 +24,9 @@ function ContadorTareas() {
   return (
     <div style={{ maxWidth: '600px', margin: '20px auto', background: '#1e293b', padding: '24px', borderRadius: '12px' }}>
       <h2 style={{ color: '#38bdf8', marginBottom: '16px' }}>Contador de Tareas</h2>
+      <div style={{ background: '#0f172a', padding: '12px', borderRadius: '8px', marginBottom: '16px', color: '#38bdf8', fontWeight: 700 }}>
+        ⏱️ Tiempo Total Memorizado: {tiempoTotal} minutos
+      </div>
       <form onSubmit={agregarTarea} style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
         <input
           type="text"
